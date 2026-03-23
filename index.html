@@ -547,19 +547,24 @@
             <h3 class="font-headline text-3xl font-black text-white mb-2 tracking-tight uppercase relative z-10">Comienza tu <br/><span class="text-[#32CD32] italic">Transformación</span></h3>
             <p class="text-on-surface-variant mb-8 font-light relative z-10">Déjanos tus datos y un entrenador se comunicará contigo para evaluar tu nivel y armar tu plan ideal.</p>
             
-            <form class="space-y-5 relative z-10" @submit.prevent="modalOpen = false; alert('¡Formulario enviado! Nos pondremos en contacto contigo a la brevedad.')">
+            <form action="https://formsubmit.co/tucuerpolosabefitness@gmail.com" method="POST" class="space-y-5 relative z-10">
+                <!-- Configuraciones de FormSubmit -->
+                <input type="hidden" name="_next" value="https://tucuerpolosabe.onrender.com/">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nuevo Lead de Tu Cuerpo Lo Sabe Fitness">
+
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Nombre completo</label>
-                    <input type="text" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="Tu nombre">
+                    <input type="text" name="Nombre" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="Tu nombre">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">WhatsApp</label>
-                    <input type="tel" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="+54 11 1234-5678">
+                    <input type="tel" name="WhatsApp" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="+54 11 1234-5678">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Dime tu principal objetivo</label>
                     <div class="relative">
-                        <select required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all appearance-none shadow-inner cursor-pointer relative z-10 bg-transparent">
+                        <select name="Objetivo" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all appearance-none shadow-inner cursor-pointer relative z-10 bg-transparent">
                             <option value="" class="bg-surface-container text-white" disabled selected>Selecciona una opción</option>
                             <option value="perdida" class="bg-surface-container text-white">Pérdida de grasa en 90 días</option>
                             <option value="masa" class="bg-surface-container text-white">Aumento de masa muscular hipertrófica</option>
