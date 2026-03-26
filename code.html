@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tu Cuerpo Lo Sabe | Kinetic High-End Fitness</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AOS for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#32CD32", // Vibrant Lime Green
+                        "secondary": "#A020F0", // Deep Purple
+                        "surface": "#0e0e0e",
+                        "surface-container": "#1a1a1a",
+                        "surface-container-low": "#131313",
+                        "surface-container-high": "#20201f",
+                        "surface-bright": "#2c2c2c",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-pulse-shadow {
+            box-shadow: 0 0 40px rgba(50, 205, 50, 0.15);
+        }
+        .text-glow-green {
+            text-shadow: 0 0 15px rgba(50, 205, 50, 0.6);
+        }
+        .text-glow-purple {
+            text-shadow: 0 0 15px rgba(160, 32, 240, 0.6);
+        }
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-nav {
+            background: rgba(14, 14, 14, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e0e0e; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #32CD32; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #28a428; 
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-[#32CD32] selection:text-black"
+      x-data="{ mobileMenuOpen: false, modalOpen: false, scrolled: false }"
+      @scroll.window="scrolled = (window.pageYOffset > 50)">
+
+    <!-- Top Navigation Bar -->
+    <header :class="scrolled ? 'glass-nav shadow-[0_0_20px_rgba(50,205,50,0.1)] py-3' : 'bg-transparent py-5'" 
+            class="fixed top-0 w-full z-50 transition-all duration-300">
+        <nav class="flex justify-between items-center w-full px-6 max-w-7xl mx-auto">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-[#32CD32] rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                    <img alt="Tu Cuerpo Lo Sabe Logo" class="h-10 w-auto rounded-full relative z-10" src="https://lh3.googleusercontent.com/aida/ADBb0uhwmfsxuupTHn1MJdfYdBLM8pHulU-h04j923gNWpxPoLnH4UQqYhWsKFxvVCeLz0VDBpdlBQbpQjp5vsG5BoN50e6Q7xcR_KT5edLNZvV6ck1hb3ZZOZ6iJYgQ9QdnA7EYkXaZ430-SsdOl0YBaUO8fBcg0-LTS3q6sQMwK5nRf001wkORhKp944VPSLCnO-6grcoyHvQWGnBroeINnVcFIksyaf01JrDSpoCF7VL9b5xqV4CsVPksLWa2xpTAhyabTlmxYuUl"/>
+                </div>
+                <div class="text-2xl font-black italic text-[#32CD32] tracking-tighter font-headline group-hover:text-white transition-colors">
+                    Tu Cuerpo Lo Sabe
+                </div>
+            </a>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a class="font-headline font-bold uppercase tracking-widest text-sm text-gray-400 hover:text-[#32CD32] transition-colors duration-300 relative group" href="#nosotros">
+                    Nosotros
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#32CD32] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a class="font-headline font-bold uppercase tracking-widest text-sm text-gray-400 hover:text-[#32CD32] transition-colors duration-300 relative group" href="#servicios">
+                    Servicios
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#32CD32] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a class="font-headline font-bold uppercase tracking-widest text-sm text-gray-400 hover:text-[#32CD32] transition-colors duration-300 relative group" href="#testimonios">
+                    Testimonios
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#32CD32] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <button @click="modalOpen = true" class="bg-[#32CD32] text-black px-6 py-2.5 rounded-sm font-headline font-bold uppercase tracking-tighter hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(50,205,50,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]">
+                    Empieza Ahora
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Icon -->
+            <button class="md:hidden flex items-center z-50 text-[#32CD32] hover:text-white transition-colors relative" @click="mobileMenuOpen = !mobileMenuOpen">
+                <span class="material-symbols-outlined text-3xl" x-text="mobileMenuOpen ? 'close' : 'menu'"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="md:hidden absolute top-full left-0 w-full bg-surface-container/95 backdrop-blur-xl border-b border-white/10 shadow-2xl"
+             @click.away="mobileMenuOpen = false">
+            <div class="flex flex-col px-6 py-8 gap-6 text-center">
+                <a @click="mobileMenuOpen = false" href="#nosotros" class="font-headline font-bold uppercase tracking-widest text-xl text-white hover:text-[#32CD32]">Nosotros</a>
+                <a @click="mobileMenuOpen = false" href="#servicios" class="font-headline font-bold uppercase tracking-widest text-xl text-white hover:text-[#32CD32]">Servicios</a>
+                <a @click="mobileMenuOpen = false" href="#testimonios" class="font-headline font-bold uppercase tracking-widest text-xl text-white hover:text-[#32CD32]">Testimonios</a>
+                <button @click="mobileMenuOpen = false; modalOpen = true" class="bg-[#32CD32] text-black w-full py-4 rounded-sm font-headline font-bold uppercase tracking-widest text-lg mt-4">
+                    Empieza Ahora
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            <!-- Animated Background Blobs -->
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#32CD32]/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob z-0"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A020F0]/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000 z-0"></div>
+            
+            <div class="absolute inset-0 z-0">
+                <img alt="Intense high-end fitness training background" class="w-full h-full object-cover opacity-30 mix-blend-luminosity scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0ujkDAImN4qcU0XGMGWKakCYGMujoS41rNM0i55xXapNEmKkQbMpDl6Vxd1VAtma_nPjNO5vi0TvPcH1B9uyoTZMEzQBNyU12lvnECse8PrQ-iS_r3USIeJI0h13JTFtbEpH7jIcd6LyHEaeF1ylySwY7QjGQiv1lu_usAWRcNWflCK96EJJWWLLL4X-VUd0vcdZtczSzHDWqYwBfTcnV-FwD1R6vQnB5ahxCedGLoN0okxAYR3EJxlwLC-azdT4qDV_omLWoImL3A"/>
+                <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface/40"></div>
+            </div>
+
+            <div class="relative z-10 w-full max-w-7xl mx-auto px-6" data-aos="fade-up">
+                <div class="max-w-3xl">
+                    <span class="inline-flex items-center gap-2 py-1.5 px-4 bg-[#32CD32]/10 border border-[#32CD32]/30 text-[#32CD32] font-bold text-xs tracking-widest uppercase rounded-full mb-8 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-[#32CD32] animate-pulse"></span>
+                        Únete al Movimiento
+                    </span>
+                    <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white leading-[0.95] mb-6">
+                        Despierta tu <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#32CD32] to-[#A020F0] italic px-1">mejor versión.</span>
+                    </h1>
+                    <p class="font-body text-lg md:text-2xl text-on-surface-variant max-w-xl mb-12 leading-relaxed font-light mt-2">
+                        Tu cuerpo ya lo sabe, ahora demuéstralo. Entrenamiento de alto impacto diseñado para resultados reales, no excusas.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <button @click="modalOpen = true" class="relative overflow-hidden group bg-[#32CD32] text-black px-10 py-5 rounded-sm font-headline font-bold uppercase tracking-widest text-sm hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(50,205,50,0.3)]">
+                            <span class="relative z-10">Únete al equipo</span>
+                            <div class="absolute inset-0 h-full w-full scale-0 rounded-sm transition-all duration-300 group-hover:scale-100 group-hover:bg-white/20"></div>
+                        </button>
+                        <a href="#servicios" class="flex items-center justify-center border border-white/20 text-white px-10 py-5 rounded-sm font-headline font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm group">
+                            Descubre cómo
+                            <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Indicator -->
+            <a href="#nosotros" class="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-on-surface-variant hover:text-[#32CD32] transition-colors cursor-pointer z-20">
+                <span class="text-xs font-headline uppercase tracking-widest">Scroll</span>
+                <span class="material-symbols-outlined animate-bounce">keyboard_double_arrow_down</span>
+            </a>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="nosotros" class="py-24 md:py-32 bg-surface overflow-hidden relative border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
+                <div class="w-full lg:w-1/2 relative" data-aos="fade-right">
+                    <div class="absolute -top-20 -left-20 w-64 h-64 bg-[#A020F0]/10 rounded-full blur-[100px]"></div>
+                    <div class="bg-surface-container-low p-8 md:p-12 rounded-3xl border border-white/5 relative z-10 hover:border-[#32CD32]/30 transition-colors duration-500 shadow-2xl">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-1 bg-[#32CD32]"></div>
+                            <h2 class="font-headline text-4xl lg:text-5xl font-black tracking-tight">Quiénes <span class="text-[#32CD32] italic">Somos</span></h2>
+                        </div>
+                        <div class="space-y-6">
+                            <p class="font-body text-lg text-on-surface-variant leading-relaxed">En <span class="text-white font-bold">Tu Cuerpo Lo Sabe Fitness</span>, tenemos una convicción muy clara: cualquier persona puede entrenar. No importa tu punto de partida, tu nivel o tu experiencia previa; el movimiento es para todos.</p>
+                            <p class="font-body text-lg text-on-surface-variant leading-relaxed">Sabemos que cada cuerpo es un mundo, por eso no creemos en rutinas genéricas. Nuestras clases se adaptan al 100% a tus objetivos personales. Priorizamos construir una base sólida de fuerza y resistencia para que encares tu día a día con energía insuperable.</p>
+                            <div class="bg-surface-bright p-6 rounded-2xl border-l-4 border-[#A020F0] mt-8 relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#A020F0]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <p class="font-body text-lg text-white leading-relaxed italic relative z-10">"El entrenamiento tiene que ser divertido. Olvídate de rutinas aburridas; buscamos que cada clase sea el momento más dinámico de tu día."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/2 flex flex-col gap-6" data-aos="fade-left">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-surface-container-low p-8 rounded-2xl border border-white/5 text-center group hover:bg-surface-bright transition-all hover:-translate-y-2 shadow-lg hover:shadow-[0_10px_30px_rgba(50,205,50,0.1)]">
+                            <span class="material-symbols-outlined text-4xl text-[#32CD32] mb-4 group-hover:scale-110 transition-transform">groups</span>
+                            <span class="font-headline text-5xl font-black text-white block mb-2 text-glow-green">50K+</span>
+                            <span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Comunidad</span>
+                        </div>
+                        <div class="bg-surface-container-low p-8 rounded-2xl border border-white/5 text-center group hover:bg-surface-bright transition-all hover:-translate-y-2 shadow-lg hover:shadow-[0_10px_30px_rgba(160,32,240,0.1)]">
+                            <span class="material-symbols-outlined text-4xl text-[#A020F0] mb-4 group-hover:scale-110 transition-transform">trending_up</span>
+                            <span class="font-headline text-5xl font-black text-white block mb-2 text-glow-purple">1.2K+</span>
+                            <span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Transformaciones</span>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low border border-[#32CD32]/20 p-8 rounded-2xl flex items-center gap-6 group hover:border-[#32CD32]/50 transition-all cursor-pointer shadow-lg relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#32CD32]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="w-16 h-16 rounded-full bg-[#32CD32]/10 flex-shrink-0 flex items-center justify-center group-hover:bg-[#32CD32] group-hover:text-black transition-all relative z-10">
+                            <span class="material-symbols-outlined text-3xl group-hover:animate-spin">whatshot</span>
+                        </div>
+                        <div class="relative z-10">
+                            <h4 class="font-headline font-bold text-2xl mb-2 text-white">Cultura de Esfuerzo</h4>
+                            <p class="text-base text-on-surface-variant">Conectamos a miles a través de la disciplina diaria y el amor por el progreso continuo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicios" class="py-24 md:py-32 relative bg-surface-container-low border-t border-white/5">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#32CD32 1px, transparent 1px); background-size: 40px 40px;"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <span class="text-[#32CD32] font-bold tracking-widest uppercase text-sm mb-4 block">Lo que ofrecemos</span>
+                    <h2 class="font-headline text-5xl md:text-6xl font-black tracking-tighter uppercase mb-6">Nuestros <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#32CD32] to-[#A020F0]">Servicios</span></h2>
+                    <p class="text-on-surface-variant text-xl max-w-2xl mx-auto font-light">Soluciones integrales de alto rendimiento para llevar tu físico y mentalidad al siguiente nivel.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="bg-surface p-10 rounded-3xl border border-white/5 group hover:border-[#32CD32]/50 transition-all duration-500 relative overflow-hidden hover:-translate-y-2 h-[420px] flex flex-col shadow-xl hover:shadow-[0_20px_40px_rgba(50,205,50,0.1)]" data-aos="fade-up" data-aos-delay="0">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-8 group-hover:bg-[#32CD32] transition-colors duration-500 z-10 relative shadow-inner">
+                            <span class="material-symbols-outlined text-3xl text-[#32CD32] group-hover:text-black transition-colors" data-weight="fill">fitness_center</span>
+                        </div>
+                        <h3 class="font-headline text-2xl font-bold mb-4 uppercase tracking-tight z-10 relative">Entrenamiento Personalizado</h3>
+                        <p class="text-on-surface-variant text-lg leading-relaxed mb-auto z-10 relative">Programas diseñados 1:1 basados en tu biomecánica y objetivos específicos de rendimiento físico.</p>
+                        <button class="flex items-center gap-2 text-[#32CD32] font-bold uppercase tracking-widest text-sm group-hover:gap-4 transition-all z-10 relative mt-8 w-fit" @click="modalOpen = true">
+                            Solicitar Info <span class="material-symbols-outlined text-xl">arrow_right_alt</span>
+                        </button>
+                        
+                        <!-- Hover decorative -->
+                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-gradient-to-tl from-[#32CD32]/20 to-transparent rounded-full blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                        <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl transform rotate-12 opacity-5 text-white group-hover:opacity-10 transition-opacity pointer-events-none">fitness_center</span>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-surface p-10 rounded-3xl border border-white/5 group hover:border-[#A020F0]/50 transition-all duration-500 relative overflow-hidden hover:-translate-y-2 h-[420px] flex flex-col shadow-xl hover:shadow-[0_20px_40px_rgba(160,32,240,0.1)]" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-8 group-hover:bg-[#A020F0] transition-colors duration-500 z-10 relative shadow-inner">
+                            <span class="material-symbols-outlined text-3xl text-[#A020F0] group-hover:text-white transition-colors" data-weight="fill">monitoring</span>
+                        </div>
+                        <h3 class="font-headline text-2xl font-bold mb-4 uppercase tracking-tight z-10 relative">Asesoría Online</h3>
+                        <p class="text-on-surface-variant text-lg leading-relaxed mb-auto z-10 relative">Seguimiento digital 24/7, planes nutricionales y ajustes semanales estés donde estés en el mundo.</p>
+                        <button class="flex items-center gap-2 text-[#A020F0] font-bold uppercase tracking-widest text-sm group-hover:gap-4 transition-all z-10 relative mt-8 w-fit" @click="modalOpen = true">
+                            Solicitar Info <span class="material-symbols-outlined text-xl">arrow_right_alt</span>
+                        </button>
+                        
+                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-gradient-to-tl from-[#A020F0]/20 to-transparent rounded-full blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                        <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl transform rotate-12 opacity-5 text-white group-hover:opacity-10 transition-opacity pointer-events-none">monitoring</span>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-surface p-10 rounded-3xl border border-white/5 group hover:border-[#32CD32]/50 transition-all duration-500 relative overflow-hidden hover:-translate-y-2 h-[420px] flex flex-col shadow-xl hover:shadow-[0_20px_40px_rgba(50,205,50,0.1)]" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-8 group-hover:bg-[#32CD32] transition-colors duration-500 z-10 relative shadow-inner">
+                            <span class="material-symbols-outlined text-3xl text-[#32CD32] group-hover:text-black transition-colors" data-weight="fill">home_app_logo</span>
+                        </div>
+                        <h3 class="font-headline text-2xl font-bold mb-4 uppercase tracking-tight z-10 relative">Rutinas para Casa</h3>
+                        <p class="text-on-surface-variant text-lg leading-relaxed mb-auto z-10 relative">Cero excusas. Entrenamientos efectivos con mínimo o nulo equipamiento para optimizar tu tiempo.</p>
+                        <button class="flex items-center gap-2 text-[#32CD32] font-bold uppercase tracking-widest text-sm group-hover:gap-4 transition-all z-10 relative mt-8 w-fit" @click="modalOpen = true">
+                            Solicitar Info <span class="material-symbols-outlined text-xl">arrow_right_alt</span>
+                        </button>
+                        
+                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-gradient-to-tl from-[#32CD32]/20 to-transparent rounded-full blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                        <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl transform rotate-12 opacity-5 text-white group-hover:opacity-10 transition-opacity pointer-events-none">home_app_logo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonios" class="py-24 bg-surface border-t border-white/5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-[#A020F0]/5 to-transparent rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8" data-aos="fade-right">
+                    <div>
+                        <h2 class="font-headline text-4xl md:text-5xl font-black mb-4 uppercase">Casos de <span class="text-[#A020F0] italic">Éxito</span></h2>
+                        <p class="text-on-surface-variant text-lg">Nuestros atletas hablan por los resultados obtenidos.</p>
+                    </div>
+                    <div class="hidden md:flex gap-4">
+                        <button class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors shadow-sm">
+                            <span class="material-symbols-outlined">west</span>
+                        </button>
+                        <button class="w-12 h-12 rounded-full border border-[#A020F0] bg-[#A020F0]/10 text-[#A020F0] flex items-center justify-center hover:bg-[#A020F0] hover:text-white transition-colors shadow-sm">
+                            <span class="material-symbols-outlined">east</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 relative shadow-lg group hover:border-[#32CD32]/20 transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
+                        <span class="material-symbols-outlined text-6xl text-white/5 absolute top-6 right-6 font-serif pointer-events-none">format_quote</span>
+                        <div class="flex gap-1 text-[#32CD32] mb-6">
+                            <span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span>
+                        </div>
+                        <p class="text-lg text-white mb-8 font-light relative z-10">"Nunca pensé que podría lograr esta resistencia. El programa personalizado de Tu Cuerpo Lo Sabe cambió mi relación con el ejercicio. Ya no es una obligación, es una necesidad."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 border border-white/20"></div>
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#32CD32] transition-colors">Martín S.</h4>
+                                <p class="text-xs text-on-surface-variant uppercase tracking-wider">Plan Personalizado</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 relative shadow-lg group hover:border-[#A020F0]/20 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                        <span class="material-symbols-outlined text-6xl text-white/5 absolute top-6 right-6 font-serif pointer-events-none">format_quote</span>
+                        <div class="flex gap-1 text-[#32CD32] mb-6">
+                            <span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span>
+                        </div>
+                        <p class="text-lg text-white mb-8 font-light relative z-10">"La asesoría online es una locura. Los check-ins semanales me mantienen enfocada y el soporte me ayuda cuando me estanco. Bajé mi % de grasa sin pasar hambre y gané fuerza."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 border border-white/20"></div>
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#A020F0] transition-colors">Lucía V.</h4>
+                                <p class="text-xs text-on-surface-variant uppercase tracking-wider">Asesoría Online</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 relative shadow-lg group hover:border-[#32CD32]/20 transition-all duration-300 hidden lg:block" data-aos="fade-up" data-aos-delay="200">
+                        <span class="material-symbols-outlined text-6xl text-white/5 absolute top-6 right-6 font-serif pointer-events-none">format_quote</span>
+                        <div class="flex gap-1 text-[#32CD32] mb-6">
+                            <span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span><span class="material-symbols-outlined text-sm" data-weight="fill">star</span>
+                        </div>
+                        <p class="text-lg text-white mb-8 font-light relative z-10">"Con trabajo completo de oficina y familia, no tenía tiempo. Las rutinas para casa de 40 min salvaron mi salud. Dinámicas, matadoras y 100% efectivas. Totalmente recomendado."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 border border-white/20"></div>
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#32CD32] transition-colors">Diego F.</h4>
+                                <p class="text-xs text-on-surface-variant uppercase tracking-wider">Rutinas Casa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section ('La Tribu') -->
+        <section class="py-24 bg-surface border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="mb-16 text-center" data-aos="zoom-in">
+                    <h2 class="font-headline text-5xl md:text-7xl font-black mb-4 italic uppercase tracking-tighter">Nuestra <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#32CD32] to-[#A020F0] italic">Tribu</span></h2>
+                    <div class="w-24 h-1.5 bg-gradient-to-r from-[#32CD32] to-[#A020F0] mx-auto rounded-full"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+                    <div class="md:col-span-7 relative h-[500px] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl border border-white/5" data-aos="fade-right">
+                        <img alt="Community training atmosphere in gym" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60 group-hover:opacity-80" src="https://lh3.googleusercontent.com/aida/ADBb0ui5yBGd6kLepPWYHwcPwVuK09hOblmWLxeY0E1W4ddxw4LHH34vM3pzS9lru8HvE65-n0fQzSkNvIAPwXkQbbRMUJSpMaeCIJyJ8pNSANmlgnyP1-8dGpJqpFmquRUd2YyuhVclQNTNUe6nf0jQj6zp4eyKgPCcWsOg97DNE3JFW0P3qigREkpP1Kl4aDctMrZ9agmjnc6bGUVEcJutq-g6YQnD_MhBAFzgeKPW6umrXL8BTmnPie54K8eQb1ey4LCLeRbafPWasg"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] via-[#0e0e0e]/40 to-transparent"></div>
+                        <div class="absolute bottom-10 left-10 right-10 flex flex-col items-start z-10">
+                            <span class="bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold uppercase mb-4 inline-block tracking-widest shadow-md">Comunidad</span>
+                            <h4 class="text-4xl md:text-5xl font-black font-headline text-white drop-shadow-lg leading-tight group-hover:text-[#32CD32] transition-colors">Energía que Contagia</h4>
+                        </div>
+                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 shadow-lg border border-white/20 z-10">
+                            <span class="material-symbols-outlined text-white">north_east</span>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-5 relative h-[500px] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl border border-white/5" data-aos="fade-left">
+                        <img alt="Fitness performance session" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60 group-hover:opacity-80" src="https://lh3.googleusercontent.com/aida/ADBb0ujkDAImN4qcU0XGMGWKakCYGMujoS41rNM0i55xXapNEmKkQbMpDl6Vxd1VAtma_nPjNO5vi0TvPcH1B9uyoTZMEzQBNyU12lvnECse8PrQ-iS_r3USIeJI0h13JTFtbEpH7jIcd6LyHEaeF1ylySwY7QjGQiv1lu_usAWRcNWflCK96EJJWWLLL4X-VUd0vcdZtczSzHDWqYwBfTcnV-FwD1R6vQnB5ahxCedGLoN0okxAYR3EJxlwLC-azdT4qDV_omLWoImL3A"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] via-[#0e0e0e]/40 to-transparent"></div>
+                        <div class="absolute bottom-10 left-10 right-10 flex flex-col items-start z-10">
+                            <span class="bg-[#A020F0] text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase mb-4 inline-block tracking-widest shadow-md">Resultados</span>
+                            <h4 class="text-4xl md:text-5xl font-black font-headline text-white drop-shadow-lg leading-tight group-hover:text-[#A020F0] transition-colors">Disciplina Diaria</h4>
+                        </div>
+                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 shadow-lg border border-white/20 z-10">
+                            <span class="material-symbols-outlined text-white">north_east</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Banner -->
+                <div class="mt-12 bg-gradient-to-r from-[#32CD32] to-[#28a428] p-[2px] rounded-3xl group shadow-[0_15px_40px_rgba(50,205,50,0.2)] hover:shadow-[0_20px_50px_rgba(50,205,50,0.3)] transition-shadow duration-500" data-aos="fade-up">
+                    <div class="bg-surface-container h-full w-full rounded-[22px] px-8 md:px-16 py-12 flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden">
+                        <!-- Decorative shapes -->
+                        <div class="absolute -right-20 -top-20 w-80 h-80 bg-[#32CD32]/10 rounded-full blur-3xl group-hover:bg-[#32CD32]/20 transition-colors pointer-events-none"></div>
+                        <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[#A020F0]/10 rounded-full blur-3xl group-hover:bg-[#A020F0]/20 transition-colors pointer-events-none"></div>
+                        
+                        <div class="relative z-10 text-center md:text-left">
+                            <h3 class="font-headline text-3xl md:text-4xl font-black mb-3 uppercase tracking-tight text-white drop-shadow-lg">¿Listo para ser el próximo?</h3>
+                            <p class="text-on-surface-variant text-lg">Únete a nuestra comunidad activa y sigue el ritmo en <br class="hidden md:block"/><span class="text-[#32CD32] font-bold">@tucuerpolosabefitness</span></p>
+                        </div>
+                        <a class="relative z-10 bg-[#32CD32] text-black px-10 py-5 rounded-xl font-bold font-headline uppercase tracking-widest flex items-center gap-3 hover:bg-white transition-colors duration-300 shadow-[0_10px_30px_rgba(50,205,50,0.3)] hover:-translate-y-1" href="https://instagram.com" target="_blank">
+                            <span class="material-symbols-outlined">add_circle</span> Seguir en Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-surface border-t border-white/5 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="md:col-span-2">
+                    <a href="#" class="flex items-center gap-3 mb-6 inline-flex hover:opacity-80 transition-opacity">
+                        <img alt="Tu Cuerpo Lo Sabe Logo" class="h-12 w-auto rounded-full mix-blend-screen" src="https://lh3.googleusercontent.com/aida/ADBb0uhwmfsxuupTHn1MJdfYdBLM8pHulU-h04j923gNWpxPoLnH4UQqYhWsKFxvVCeLz0VDBpdlBQbpQjp5vsG5BoN50e6Q7xcR_KT5edLNZvV6ck1hb3ZZOZ6iJYgQ9QdnA7EYkXaZ430-SsdOl0YBaUO8fBcg0-LTS3q6sQMwK5nRf001wkORhKp944VPSLCnO-6grcoyHvQWGnBroeINnVcFIksyaf01JrDSpoCF7VL9b5xqV4CsVPksLWa2xpTAhyabTlmxYuUl"/>
+                        <div class="text-2xl font-black text-[#32CD32] font-headline italic tracking-tighter">
+                            Tu Cuerpo Lo Sabe
+                        </div>
+                    </a>
+                    <p class="text-on-surface-variant text-sm max-w-sm mb-8 leading-relaxed">
+                        Entrenamiento de alta intensidad y metodología probada. Supera tus límites, construye tu mejor versión. Prohibido el sedentarismo.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-white hover:bg-[#32CD32] hover:text-black transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-xl">camera_alt</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-white hover:bg-[#32CD32] hover:text-black transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-xl">smart_display</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-widest text-sm mb-6">Enlaces</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#nosotros" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Nosotros</a></li>
+                        <li><a href="#servicios" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Servicios</a></li>
+                        <li><a href="#testimonios" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Testimonios</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-widest text-sm mb-6">Legal</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Términos de Servicio</a></li>
+                        <li><a href="#" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Política de Privacidad</a></li>
+                        <li><a href="#" class="text-on-surface-variant hover:text-[#32CD32] text-sm transition-colors block w-fit">Aviso Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="font-body text-xs text-on-surface-variant text-center md:text-left">
+                    © 2026 Tu Cuerpo Lo Sabe Fitness. Todos los derechos reservados.
+                </div>
+                <div class="font-body text-xs text-on-surface-variant text-center md:text-right">
+                    Diseñado con <span class="text-[#32CD32] animate-pulse inline-block">❤</span> para el movimiento
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Nav (Glass) -->
+    <nav class="md:hidden fixed bottom-6 left-6 right-6 z-40 bg-surface/80 backdrop-blur-2xl rounded-3xl flex justify-between items-center py-3 px-6 shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-white/10" x-show="!modalOpen" x-transition>
+        <a class="flex flex-col items-center gap-1.5 text-[#32CD32] w-1/4" href="#">
+            <div class="w-10 h-10 rounded-full bg-[#32CD32]/10 flex items-center justify-center border border-[#32CD32]/20">
+                <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+            </div>
+            <span class="text-[9px] font-bold uppercase tracking-widest">Inicio</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors w-1/4" href="#servicios">
+            <span class="material-symbols-outlined text-[24px]">fitness_center</span>
+            <span class="text-[9px] font-bold uppercase tracking-widest mt-1.5">Planes</span>
+            <div class="w-1 h-1 rounded-full bg-transparent mt-0.5"></div>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors w-1/4" href="#testimonios">
+            <span class="material-symbols-outlined text-[24px]">forum</span>
+            <span class="text-[9px] font-bold uppercase tracking-widest mt-1.5">Casos</span>
+            <div class="w-1 h-1 rounded-full bg-transparent mt-0.5"></div>
+        </a>
+        <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-[#32CD32] transition-colors w-1/4" @click="modalOpen = true">
+            <span class="material-symbols-outlined text-[24px]">bolt</span>
+            <span class="text-[9px] font-bold uppercase tracking-widest mt-1.5">Únete</span>
+            <div class="w-1 h-1 rounded-full bg-transparent mt-0.5"></div>
+        </button>
+    </nav>
+
+    <!-- Lead Capture Modal -->
+    <div x-show="modalOpen" 
+         class="fixed inset-0 z-[100] flex items-center justify-center px-4"
+         x-cloak style="display: none;">
+        
+        <!-- Backdrop -->
+        <div x-show="modalOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute inset-0 bg-black/80 backdrop-blur-md"
+             @click="modalOpen = false"></div>
+             
+        <!-- Modal Content -->
+        <div x-show="modalOpen"
+             x-transition:enter="transition ease-out duration-300 delay-100"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-8"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-8"
+             class="relative w-full max-w-lg bg-surface-container rounded-3xl border border-white/10 p-8 md:p-10 shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden">
+             
+            <!-- Decorative gradient -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-[#32CD32]/20 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+            
+            <button @click="modalOpen = false" class="absolute top-6 right-6 text-on-surface-variant hover:text-white transition-colors bg-surface-container-high hover:bg-surface-bright w-10 h-10 rounded-full flex items-center justify-center border border-white/5 z-20">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            
+            <h3 class="font-headline text-3xl font-black text-white mb-2 tracking-tight uppercase relative z-10">Comienza tu <br/><span class="text-[#32CD32] italic">Transformación</span></h3>
+            <p class="text-on-surface-variant mb-8 font-light relative z-10">Déjanos tus datos y un entrenador se comunicará contigo para evaluar tu nivel y armar tu plan ideal.</p>
+            
+            <form class="space-y-5 relative z-10" @submit.prevent="modalOpen = false; alert('¡Formulario enviado! Nos pondremos en contacto contigo a la brevedad.')">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Nombre completo</label>
+                    <input type="text" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="Tu nombre">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">WhatsApp</label>
+                    <input type="tel" required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all shadow-inner" placeholder="+54 11 1234-5678">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Dime tu principal objetivo</label>
+                    <div class="relative">
+                        <select required class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-[#32CD32] focus:ring-1 focus:ring-[#32CD32] transition-all appearance-none shadow-inner cursor-pointer relative z-10 bg-transparent">
+                            <option value="" class="bg-surface-container text-white" disabled selected>Selecciona una opción</option>
+                            <option value="perdida" class="bg-surface-container text-white">Pérdida de grasa en 90 días</option>
+                            <option value="masa" class="bg-surface-container text-white">Aumento de masa muscular hipertrófica</option>
+                            <option value="rendimiento" class="bg-surface-container text-white">Alto rendimiento deportivo</option>
+                            <option value="salud" class="bg-surface-container text-white">Acondicionamiento y flexibilidad</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none z-0">
+                            <span class="material-symbols-outlined text-white/50 text-xl">expand_more</span>
+                        </div>
+                        <div class="absolute inset-0 bg-surface-container-low rounded-xl pointer-events-none z-[-1]"></div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-[#32CD32] text-black font-headline font-bold uppercase tracking-widest py-4 rounded-xl mt-6 hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_10px_20px_rgba(50,205,50,0.2)]">
+                    Solicitar Plan Personalizado
+                </button>
+                <div class="text-center pt-2">
+                    <p class="text-xs text-on-surface-variant/50 inline-flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">lock</span> Tus datos están cifrados y seguros. Cero spam garantizado.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Initialize AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50
+            });
+        });
+    </script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/541136199276" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="fixed bottom-24 md:bottom-10 right-6 md:right-10 z-[90] w-14 h-14 md:w-16 md:h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.4)] hover:scale-110 hover:-translate-y-2 transition-all duration-300 group"
+       aria-label="Contactar por WhatsApp">
+        <!-- WhatsApp SVG Icon -->
+        <svg class="w-7 h-7 md:w-9 md:h-9" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+        </svg>
+        
+        <!-- Tooltip/Notification Dot -->
+        <span class="absolute top-0 right-0 w-3 h-3 md:w-4 md:h-4 bg-white border-2 border-[#0e0e0e] rounded-full"></span>
+        <span class="absolute top-0 right-0 w-3 h-3 md:w-4 md:h-4 bg-white rounded-full animate-ping opacity-75"></span>
+    </a>
+</body>
+</html>
